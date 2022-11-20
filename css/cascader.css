@@ -4,3 +4,11 @@
     font-size: 14px;
     line-height: 40px;
 }
+
+.el-cascader >.el-input{
+    cursor: pointer;
+}
+
+.is_cascader_focus{
+    border-color: #409eff;
+}

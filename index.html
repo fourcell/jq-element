@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./font/iconfont.css">
 </head>
 
 <body>
@@ -52,12 +53,20 @@
             <span class="el-checkbox__label">深圳</span>
         </div>
     </div>
-
+    <br>
+    <br>
+    <br>
+    <br>
     3.Cascader 级联选择器
 
     <div class="el-cascader w240">
-        <input class="el-input" placeholder="请选择">
+        <input class="el-input el-input__inner" placeholder="请选择" readonly>
     </div>
+    <div class="el-cascader w240">
+        <input class="el-input el-input__inner" placeholder="请选择" readonly>
+    </div>
+
+    <i class="icon-youjiantou"></i>
 
 </body>
 
@@ -65,12 +74,14 @@
 <script src="./js/switch.js"></script>
 <script src="./js/checkbox.js"></script>
 <script src="./js/cascader.js"></script>
+<script src="./const.js"></script>
 <script>
     $('.el-switch').Switch({ a: 123 })
     $('.el-checkbox').Checkbox()
     $('.el-checkbox-group').Checkbox()
 
-    $('.el-cascader').cascader()
+
+    $('.el-cascader').cascader({ options: cascaderOptions })
 
     function onSwitch(evn) {
         const data_switch = $(evn).data('switch')
