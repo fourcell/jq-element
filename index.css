@@ -1,0 +1,8 @@
+@import './css/switch.css';
+@import './css/checkbox.css';
+@import './css/input.css';
+@import './css/cascader.css';
+
+.w240{
+    width: 240px;
+}

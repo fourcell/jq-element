@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    1.开关按钮
+    </br>
+    <div class="el-switch" onclick="onSwitch(this)">
+        <span class="el-switch__core" left="17px"></span>
+    </div>
+    </br>
+    2.Checkbox 多选框
+    </br>
+    <div>&nbsp;&nbsp;2.1基础 checkbox</div>
+    <div class="el-checkbox " value="false" onclick="onCheckbox(this)">
+        <span class="el-checkbox__input">
+            <span class="el-checkbox__inner"></span>
+            <input type="checkbox" aria-hidden="false" class="el-checkbox__original" value="">
+        </span>
+        <span class="el-checkbox__label">备注备注备注备注备注备注备注备注</span>
+    </div>
+
+    <div>&nbsp;&nbsp;2.2组合多选 checkbox-group </div>
+
+    <div class="el-checkbox-group">
+        <div class="el-checkbox " value="false">
+            <span class="el-checkbox__input">
+                <span class="el-checkbox__inner"></span>
+                <input type="checkbox" aria-hidden="false" class="el-checkbox__original" value="">
+            </span>
+            <span class="el-checkbox__label">广州</span>
+        </div>
+        <div class="el-checkbox" value="false">
+            <span class="el-checkbox__input">
+                <span class="el-checkbox__inner"></span>
+                <input type="checkbox" aria-hidden="false" class="el-checkbox__original" value="">
+            </span>
+            <span class="el-checkbox__label">上海</span>
+        </div>
+        <div class="el-checkbox abcd" value="false">
+            <span class="el-checkbox__input">
+                <span class="el-checkbox__inner"></span>
+                <input type="checkbox" aria-hidden="false" class="el-checkbox__original" value="">
+            </span>
+            <span class="el-checkbox__label">深圳</span>
+        </div>
+    </div>
+
+    3.Cascader 级联选择器
+
+    <div class="el-cascader w240">
+        <input class="el-input" placeholder="请选择">
+    </div>
+
+</body>
+
+<script src="./jquery-3.6.1.min.js"></script>
+<script src="./js/switch.js"></script>
+<script src="./js/checkbox.js"></script>
+<script src="./js/cascader.js"></script>
+<script>
+    $('.el-switch').Switch({ a: 123 })
+    $('.el-checkbox').Checkbox()
+    $('.el-checkbox-group').Checkbox()
+
+    $('.el-cascader').cascader()
+
+    function onSwitch(evn) {
+        const data_switch = $(evn).data('switch')
+    }
+
+    function onCheckbox(evn) {
+        console.log('自定义事件')
+        $(evn).data('checkbox').clickCallBack(true)
+    }
+
+
+</script>
+
+</html>
