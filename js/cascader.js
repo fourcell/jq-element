@@ -16,6 +16,7 @@
             this.model = []    //选中的值
             this.activeNode = []    //选中节点
             this.activeOpions = []  //当前选中的 children 集合
+            this.open = false
 
 
             this.init()  //初始化方法
@@ -32,6 +33,15 @@
             const _this = this
 
             $(evn).on('click', function () {
+
+                _this.open = !_this.open
+                if (!_this.open) {//第二次点击时，关闭
+                    $('.el-cascader__dropdown').hide(300)
+                    $(evn).find('.cascader-icon').removeClass('cascader-reverse')
+                    return false
+                }
+
+                $(evn).find('.cascader-icon').addClass('cascader-reverse')
 
                 const input = $(evn).find('input')  //获取 cascader 下的 input 节点
 
@@ -55,24 +65,24 @@
                             <div style="margin-bottom: -17px; margin-right: -17px;" class="el-cascader-menu__wrap el-scrollbar__wrap"> 
                                 <ul class="el-scrollbar__view el-cascader-menu__list">
                                     ${options.map((item, inx) => {
-                        return `<li role="menuitem" node=0 value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node" aria-owns="cascader-menu-1120-0-${inx}">
+                        return `<li role="menuitem" node=0 value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node ${item.disabled ? 'el-cascader-node-disabled' : ''}" aria-owns="cascader-menu-1120-0-${inx}">
                                             <span class="el-cascader-node__label">${item[lableName]}</span>
-                                            ${(item[childrenName] || []).length ? ' <i class="icon-youjiantou el-cascader-node__postfix">' : ''}
-                                        </i>`
-                    })
+                                            ${(item[childrenName] || []).length ? ' <i class="iconfont icon-youjiantou el-cascader-node__postfix"></i>' : ''}
+                                 </li>       `
+                    }).join('')
                         }
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <div class="popper__arrow"></div>
                      </div>
-                     <div class="popper__arrow"></div>
                      </div>`)
 
                     _this.preventDefault()
-                    _this.liClick()
+                    _this.liClick() //动态绑定点击事件
                 } else {
-                    $('.el-cascader__dropdown').show()
+                    $('.el-cascader__dropdown').show(300)
                     $('.el-cascader__dropdown').attr('style', style)
                     _this.initSpread()  //初始化值回显
                 }
@@ -86,25 +96,29 @@
             let children = options.options || []
             if (model.length) {
                 const htmlTpl = `${model.map((key, inx) => {
-
                     const tpl = `<div class="el-scrollbar el-cascader-menu">
                     <div style="margin-bottom: -17px; margin-right: -17px;" class="el-cascader-menu__wrap el-scrollbar__wrap"> 
                     <ul class="el-scrollbar__view el-cascader-menu__list">
                         ${children.map((item) => {
-                        return `<li role="menuitem" node=${inx} value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node ${item[valueName] == key ? 'in-active-path' : ''}  " aria-owns="cascader-menu-1120-0-${inx}">
+                        const childrenTpl = `<li role="menuitem" node=${inx} value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node ${item.disabled ? 'el-cascader-node-disabled' : ''} ${item[valueName] == key ? 'in-active-path' : ''}  " aria-owns="cascader-menu-1120-0-${inx}">
                                 <span class="el-cascader-node__label">${item[lableName]}</span>
-                                ${(item[childrenName] || []).length ? ' <i class="icon-youjiantou el-cascader-node__postfix">' : ''}
-                            </i>`
-                    })
+                                ${(item[childrenName] || []).length ? ' <i class="iconfont icon-youjiantou el-cascader-node__postfix"></i>' : ''}
+                            </li>`
+                        // if (item[valueName] == key) {
+                        //     console.log($(childrenTpl))
+                        //     this.activeNode.push($(childrenTpl))
+                        // }
+
+                        return childrenTpl
+                    }).join('')
                         }
                     </ul>
                 </div>
                     </div>`
                     const present = children.find(i => i[valueName] == key) || {}
                     children = present[childrenName] || []
-                    console.log(children)
                     return tpl
-                })
+                }).join('')
                     }`
                 $('.el-cascader__dropdown .el-cascader-panel').html(htmlTpl)
             } else {
@@ -112,11 +126,11 @@
                 <div style="margin-bottom: -17px; margin-right: -17px;" class="el-cascader-menu__wrap el-scrollbar__wrap"> 
                     <ul class="el-scrollbar__view el-cascader-menu__list">
                         ${children.map((item, inx) => {
-                    return `<li role="menuitem" node=0 value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node" aria-owns="cascader-menu-1120-0-${inx}">
+                    return `<li role="menuitem" node=0 value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node ${item.disabled ? 'el-cascader-node-disabled' : ''} " aria-owns="cascader-menu-1120-0-${inx}">
                                 <span class="el-cascader-node__label">${item[lableName]}</span>
-                                ${(item[childrenName] || []).length ? ' <i class="icon-youjiantou el-cascader-node__postfix">' : ''}
-                            </i>`
-                })
+                                ${(item[childrenName] || []).length ? ' <i class="iconfont icon-youjiantou el-cascader-node__postfix"></i>' : ''}
+                            </li>`
+                }).join('')
                     }
                     </ul>
                 </div>
@@ -136,8 +150,11 @@
         //失去焦点
         blur() {
             const { evn } = this
+            const _this = this
             $(evn).find('input').on('blur', function () {
-                // $('.el-cascader__dropdown').hide()
+                _this.open = !_this.open
+                $('.el-cascader__dropdown').hide(300)
+                $(evn).find('.cascader-icon').removeClass('cascader-reverse')
             })
         }
 
@@ -145,14 +162,16 @@
         liClick() {
             const _this = this
             $('.el-cascader__dropdown').on('click', 'li', function () {
+
+                if ($(this).hasClass('el-cascader-node-disabled')) return false  //禁用节点
+
                 const value = $(this).attr('value')     //节点的 value 值
                 const node = Number($(this).attr('node'))   //节点层级
 
 
                 // if(_this.model.some(i => i == value)) return false  //点击已存在的
 
-
-                //去除上一个选中节点的样式，
+                //判断是不是点击第一级的选项
                 if (!(_this.activeNode.length == 0 || node == 0)) {
                     const prevNode = _this.activeNode.splice(node, 1, this)
                     $(prevNode).removeClass('in-active-path')   //替换的节点去除选中样式
@@ -193,7 +212,7 @@
                     activeOpions = present[childrenName] || []
                 })
 
-                console.log(activeOpions)
+                // console.log(activeOpions)
 
                 //根据下一级的 children, 并渲染出来
                 _this.setChildrenNode(activeOpions, node)
@@ -207,21 +226,21 @@
         //设置子节点的值
         setChildrenNode(activeOpions, node) {
             const { valueName, lableName, childrenName, } = this.options
-            console.log(activeOpions, node)
+            // console.log(activeOpions, node)
             if (activeOpions.length) { //添加子节点数据 
                 this.activeOpions = activeOpions
                 const next = $('.el-cascader__dropdown .el-cascader-panel .el-cascader-menu').eq(node + 1)
-                console.log(next)
+                // console.log(next)
                 //子节点模板
                 const htmlTpl = `
                 <div style="margin-bottom: -17px; margin-right: -17px;" class="el-cascader-menu__wrap el-scrollbar__wrap"> 
                     <ul class="el-scrollbar__view el-cascader-menu__list">
                         ${activeOpions.map((item, inx) => {
-                    return `<li role="menuitem" node=${node + 1} value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node" aria-owns="cascader-menu-1120-0-${inx}">
+                    return `<li role="menuitem" node=${node + 1} value=${item[valueName]} id="cascader-menu-1120-0-${inx}" tabindex="-1" class="el-cascader-node ${item.disabled ? 'el-cascader-node-disabled' : ''}" aria-owns="cascader-menu-1120-0-${inx}">
                                 <span class="el-cascader-node__label">${item[lableName]}</span>
-                                ${(item[childrenName] || []).length ? ' <i class="icon-youjiantou el-cascader-node__postfix">' : ''}
-                            </i>`
-                })
+                                ${(item[childrenName] || []).length ? `<i class="iconfont icon-youjiantou el-cascader-node__postfix"></i>` : ''}
+                            </li>`
+                }).join('')
                     }
                     </ul>
                 </div>
@@ -242,7 +261,7 @@
         //activeOpions 子节点数源  key，当前节点的 value 值
         getOptionskey(activeOpions, key) {
             const { model } = this
-            console.log(model, activeOpions)
+            // console.log(model, activeOpions)
             if (!activeOpions.length) {   //选到最后得子节点，将处理回显和关闭弹窗
                 // this.cascaderClose()
             }
@@ -250,7 +269,8 @@
 
         //关闭弹窗
         cascaderClose() {
-            const { model } = this
+            const { model, evn } = this
+            this.open = false
             const { options, valueName, lableName, childrenName, separator } = this.options
             let children = options || []
             const lable = model.map(item => {
@@ -259,8 +279,9 @@
                 return present[lableName]
             })
             const value = lable.join(separator)
+            $(evn).find('.cascader-icon').removeClass('cascader-reverse')
             $(this.evn).find('input').val(value)
-            $('.el-cascader__dropdown').hide()
+            $('.el-cascader__dropdown').hide(300)
         }
     }
 
@@ -270,6 +291,7 @@
         $(this).each(function () {
             //将每个节点 Switch 实例存储到 data 中
             $(this).data('cascader', new Cascader($(this), data))
+            $(this).append('<i class="iconfont icon-xiajiantou cascader-icon"></i>')
         })
     }
 

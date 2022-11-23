@@ -1,14 +1,27 @@
-.el-cascader{
+.el-cascader {
     display: inline-block;
     position: relative;
     font-size: 14px;
     line-height: 40px;
 }
 
-.el-cascader >.el-input{
+.el-cascader>.el-input {
     cursor: pointer;
+    padding-right: 30px;
 }
 
-.is_cascader_focus{
+.is_cascader_focus {
     border-color: #409eff;
+}
+
+.cascader-icon {
+    position: absolute;
+    right: 10px;
+    transition: transform .3s;
+    font-size: 14px;
+}
+
+.cascader-reverse {
+    transform: rotate(180deg);
+    transition: transform .3s;
 }

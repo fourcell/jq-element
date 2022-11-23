@@ -1,6 +1,7 @@
 const cascaderOptions = [{
     value: 'zhinan',
     label: '指南',
+    disabled: true,
     children: [{
         value: 'shejiyuanze',
         label: '设计原则',

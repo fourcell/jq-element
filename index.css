@@ -2,17 +2,18 @@
 @import './css/checkbox.css';
 @import './css/input.css';
 @import './css/cascader.css';
+@import './font/iconfont.css'
 
-.w240{
+.w240 {
     width: 240px;
 }
 
 /*  cascader 弹窗组件样式 */
-.el-popper{
+.el-popper {
     margin-top: 12px;
 }
 
-.el-cascader__dropdown{
+.el-cascader__dropdown {
     margin: 5px 0;
     font-size: 14px;
     background: #fff;
@@ -21,18 +22,18 @@
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 
-.el-cascader-panel{
+.el-cascader-panel {
     display: flex;
     border-radius: 4px;
     font-size: 14px;
 }
 
-.el-scrollbar{
+.el-scrollbar {
     overflow: hidden;
     position: relative;
 }
 
-.el-cascader-menu{
+.el-cascader-menu {
     min-width: 180px;
     box-sizing: border-box;
     color: #606266;
@@ -57,6 +58,7 @@
     list-style: none;
     box-sizing: border-box;
 }
+
 /* li */
 .el-cascader-node {
     position: relative;
@@ -69,7 +71,13 @@
     cursor: pointer;
 }
 
- .in-active-path{
+/* li禁用 */
+.el-cascader-node-disabled{
+    color: #c0c4cc;
+    cursor: not-allowed;
+}
+
+.in-active-path {
     color: #409eff;
     font-weight: 700;
 }
@@ -89,4 +97,28 @@
 .el-cascader-node__postfix {
     position: absolute;
     right: 10px;
+}
+
+
+.popper__arrow {
+    /* position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 6px;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,.03));
+    left: 35px;
+    top: -6px; */
+}
+
+.popper__arrow::after {
+    /* position: absolute;
+    content: " ";
+    top: -7px;
+    border-left: 6px solid transparent;  
+    border-right: 6px solid transparent;  
+    border-bottom: 12px solid #fff; 
+    border: 0.1px solid red; */
 }
